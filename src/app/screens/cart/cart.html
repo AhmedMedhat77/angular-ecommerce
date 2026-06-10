@@ -1,1 +1,70 @@
-<p>cart works!</p>
+<section class="pt-6 pb-16">
+  <div class="container mx-auto flex flex-col gap-6">
+    <div class="flex items-center gap-3">
+      <a [routerLink]="'/'" class="text-gray-400 hover:text-gray-600 transition-colors">
+        <mat-icon class="text-2xl">arrow_back</mat-icon>
+      </a>
+      <div>
+        <h1 class="text-2xl font-bold text-gray-900">Shopping cart</h1>
+        <p class="text-sm text-gray-400 mt-0.5">
+          {{ totalItems() }} {{ totalItems() === 1 ? 'product' : 'products' }} in cart
+        </p>
+      </div>
+    </div>
+
+    @if (products().length === 0) {
+      <div class="flex flex-col items-center justify-center py-24 gap-4">
+        <mat-icon class="text-gray-200" [style.fontSize]="'80px'">shopping_cart</mat-icon>
+        <div class="text-center flex flex-col gap-2">
+          <p class="text-lg font-semibold text-gray-500">Your cart is empty</p>
+          <p class="text-sm text-gray-400">Looks like you haven't added any items yet.</p>
+        </div>
+        <a
+          [routerLink]="'/'"
+          class="mt-2 bg-purple-700 hover:bg-purple-800 text-white font-semibold py-2.5 px-6 rounded-xl transition-colors duration-200"
+        >
+          Continue shopping
+        </a>
+      </div>
+    } @else {
+      <div class="flex gap-8 items-start">
+        <div class="flex-1 min-w-0 flex flex-col gap-4">
+          @for (product of products(); track product.id) {
+            <div class="flex items-center gap-4 bg-white rounded-2xl border border-gray-200 p-4 transition-all duration-200 hover:shadow-md">
+              <img
+                [src]="product.thumbnail"
+                [alt]="product.title"
+                class="w-24 h-24 object-contain rounded-xl bg-gray-50 flex-shrink-0"
+              />
+              <div class="flex-1 min-w-0 flex flex-col gap-1">
+                <span class="text-xs font-medium text-gray-400 uppercase tracking-wider">
+                  {{ product.brand || product.category }}
+                </span>
+                <p class="font-semibold text-gray-900 truncate">{{ product.title }}</p>
+                <div class="flex items-baseline gap-2">
+                  <span class="text-lg font-bold text-purple-700">${{ product.price.toFixed(2) }}</span>
+                  @if (product.discountPercentage > 5) {
+                    <span class="text-sm text-gray-400 line-through">
+                      ${{ (product.price / (1 - product.discountPercentage / 100)).toFixed(2) }}
+                    </span>
+                  }
+                </div>
+              </div>
+              <button
+                (click)="removeItem(product.id)"
+                class="flex-shrink-0 p-2 rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 transition-colors duration-200 cursor-pointer"
+                aria-label="Remove {{ product.title }} from cart"
+              >
+                <mat-icon class="text-xl">close</mat-icon>
+              </button>
+            </div>
+          }
+        </div>
+
+        <div class="w-80 flex-shrink-0">
+          <app-cart-totals (clearCart)="clearCart()" />
+        </div>
+      </div>
+    }
+  </div>
+</section>

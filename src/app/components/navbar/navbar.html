@@ -23,6 +23,8 @@
 
   <div class="flex items-center gap-3">
     <app-search (searchValue)="onSearch($event)" />
-    <app-app-cart />
+    <a routerLink="/cart">
+      <app-app-cart />
+    </a>
   </div>
 </nav>

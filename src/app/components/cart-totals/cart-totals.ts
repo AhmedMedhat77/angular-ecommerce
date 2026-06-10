@@ -1,0 +1,26 @@
+import { Component, computed, inject, output } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
+import { CartService } from '../../services/cart.service';
+
+@Component({
+  selector: 'app-cart-totals',
+  imports: [MatIconModule],
+  templateUrl: './cart-totals.html',
+  styles: `
+    :host {
+      display: block;
+    }
+  `,
+})
+export class CartTotals {
+  private cartService = inject(CartService);
+
+  readonly totalItems = this.cartService.totalItems;
+  readonly totalPrice = this.cartService.totalPrice;
+  readonly totalSavings = this.cartService.totalSavings;
+  readonly originalTotal = computed(() =>
+    (this.totalPrice() + this.totalSavings()).toFixed(2),
+  );
+
+  clearCart = output<void>();
+}
