@@ -14,6 +14,8 @@ export class CategiesList implements OnInit {
 
   categories = signal<ICategory[]>([]);
   selectedCategories = signal<string[]>([]);
+  loading = this.categoriesService.isLoading;
+  skeletonItems = Array.from({ length: 8 }, () => ({}));
 
   categoriesChanged = output<string[]>();
 
