@@ -17,7 +17,9 @@
         </div>
         <div class="text-center flex flex-col gap-2">
           <p class="text-2xl font-bold text-gray-900">Order placed successfully!</p>
-          <p class="text-sm text-gray-400">Thank you for your purchase. Your order is being processed.</p>
+          <p class="text-sm text-gray-400">
+            Thank you for your purchase. Your order is being processed.
+          </p>
         </div>
         <a
           [routerLink]="'/'"
@@ -137,8 +139,10 @@
           </div>
         </div>
 
-        <div class="w-full lg:w-80 flex-shrink-0">
-          <div class="rounded-2xl border border-gray-200 bg-white p-6 flex flex-col gap-5 sticky top-24">
+        <div class="w-full lg:w-80 shrink-0">
+          <div
+            class="rounded-2xl border border-gray-200 bg-white p-6 flex flex-col gap-5 sticky top-24"
+          >
             <h2 class="text-lg font-bold text-gray-900">Order summary</h2>
 
             <div class="flex flex-col gap-3 max-h-60 overflow-y-auto">
@@ -147,10 +151,12 @@
                   <img
                     [src]="item.product.thumbnail"
                     [alt]="item.product.title"
-                    class="w-12 h-12 object-contain rounded-lg bg-gray-50 flex-shrink-0"
+                    class="w-12 h-12 object-contain rounded-lg bg-gray-50 shrink-0"
                   />
                   <div class="flex-1 min-w-0">
-                    <p class="text-sm font-medium text-gray-900 truncate">{{ item.product.title }}</p>
+                    <p class="text-sm font-medium text-gray-900 truncate">
+                      {{ item.product.title }}
+                    </p>
                     <p class="text-xs text-gray-400">Qty: {{ item.quantity }}</p>
                   </div>
                   <span class="text-sm font-semibold text-gray-900">
@@ -178,7 +184,9 @@
               <div class="border-t border-gray-200 pt-3">
                 <div class="flex justify-between items-baseline">
                   <span class="text-base font-bold text-gray-900">Total</span>
-                  <span class="text-xl font-bold text-purple-700">${{ totalPrice().toFixed(2) }}</span>
+                  <span class="text-xl font-bold text-purple-700"
+                    >${{ totalPrice().toFixed(2) }}</span
+                  >
                 </div>
               </div>
             </div>

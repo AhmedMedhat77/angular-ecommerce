@@ -40,7 +40,11 @@
           </div>
           <div class="flex flex-col gap-2">
             @for (_ of [1, 2, 3]; track $index) {
-              <div class="h-4 rounded bg-gray-200" [class.w-full]="$index !== 2" [class.w-2/3]="$index === 2"></div>
+              <div
+                class="h-4 rounded bg-gray-200"
+                [class.w-full]="$index !== 2"
+                [class.w-2/3]="$index === 2"
+              ></div>
             }
           </div>
           <div class="h-4 w-32 rounded bg-gray-200"></div>
@@ -60,14 +64,19 @@
       </div>
     } @else if (notFound()) {
       <div class="flex items-center justify-center py-20">
-        <div class="flex flex-col items-center gap-6 max-w-md w-full bg-white rounded-2xl border border-gray-200 p-10">
+        <div
+          class="flex flex-col items-center gap-6 max-w-md w-full bg-white rounded-2xl border border-gray-200 p-10"
+        >
           <div class="w-24 h-24 rounded-full bg-purple-50 flex items-center justify-center">
-            <mat-icon class="text-purple-300" style="font-size: 48px">production_quantity_limits</mat-icon>
+            <mat-icon class="text-purple-300" style="font-size: 48px"
+              >production_quantity_limits</mat-icon
+            >
           </div>
           <div class="text-center flex flex-col gap-2">
             <h2 class="text-xl font-bold text-gray-800">Product not found</h2>
             <p class="text-sm text-gray-400 leading-relaxed">
-              Sorry, we couldn't find the product you're looking for. It may have been removed or the link might be broken.
+              Sorry, we couldn't find the product you're looking for. It may have been removed or
+              the link might be broken.
             </p>
           </div>
           <div class="flex items-center gap-3">
@@ -142,7 +151,9 @@
           </div>
 
           <div class="flex items-baseline gap-3">
-            <span class="text-3xl font-bold text-purple-700">${{ product()!.price.toFixed(2) }}</span>
+            <span class="text-3xl font-bold text-purple-700"
+              >${{ product()!.price.toFixed(2) }}</span
+            >
             @if (product()!.discountPercentage > 5) {
               <span class="text-lg text-gray-400 line-through">
                 ${{ discountedPrice().toFixed(2) }}
