@@ -1,7 +1,8 @@
-import { Component, output, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, skip, Subject, takeUntil } from 'rxjs';
+import { Products } from '../../services/products';
 
 @Component({
   selector: 'app-search',
@@ -14,12 +15,11 @@ import { debounceTime, distinctUntilChanged, skip, Subject, takeUntil } from 'rx
   `,
 })
 export class Search {
+  private products = inject(Products);
   private search$ = new Subject<string>();
   private destroy$ = new Subject<void>();
 
   internalValue = signal('');
-
-  searched = output<string>();
 
   constructor() {
     this.search$
@@ -29,7 +29,7 @@ export class Search {
         distinctUntilChanged(),
         takeUntil(this.destroy$),
       )
-      .subscribe((term) => this.searched.emit(term));
+      .subscribe((term) => this.products.search(term));
   }
 
   onInput(event: Event) {
