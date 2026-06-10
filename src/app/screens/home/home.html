@@ -4,7 +4,7 @@
 </div>
 
 <div class="grid grid-cols-3 gap-4 p-2">
-  @for (product of products(); track product.id) {
+  @for (product of products(); track product.id ?? $index) {
     <app-product-card [product]="product" />
   }
 
