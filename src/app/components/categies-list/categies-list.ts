@@ -42,4 +42,9 @@ export class CategiesList implements OnInit {
     }
     this.categoriesChanged.emit(this.selectedCategories());
   }
+
+  clearAll() {
+    this.selectedCategories.set([]);
+    this.categoriesChanged.emit([]);
+  }
 }

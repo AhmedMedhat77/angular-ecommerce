@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, ElementRef, inject, OnDestroy, OnInit, signal, viewChild } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { Products } from '../../services/products';
@@ -12,8 +12,9 @@ import { CategiesList } from '../categies-list/categies-list';
   templateUrl: './products-list.html',
   styleUrl: './products-list.css',
 })
-export class ProductsList implements OnInit {
+export class ProductsList implements OnInit, OnDestroy {
   private productService = inject(Products);
+  private observer: IntersectionObserver | null = null;
 
   products = this.productService.products;
   loading = this.productService.loading;
@@ -22,6 +23,8 @@ export class ProductsList implements OnInit {
   hasMore = this.productService.hasMore;
   skeletonItems = this.productService.skeletonItems;
   showCategories = signal(false);
+  sentinel = viewChild<ElementRef>('sentinel');
+  scrollContainer = viewChild<ElementRef<HTMLElement>>('scrollContainer');
 
   toggleCategories() {
     this.showCategories.update((v) => !v);
@@ -33,20 +36,22 @@ export class ProductsList implements OnInit {
 
   ngOnInit(): void {
     this.productService.fetchProducts();
-    this.setupScrollListener();
   }
 
-  private setupScrollListener(): void {
-    window.addEventListener('scroll', () => {
-      if (this.loading() || this.loadingNext() || !this.hasMore()) return;
+  ngAfterViewInit() {
+    this.observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        if (entry.isIntersecting && !this.loading() && !this.loadingNext() && this.hasMore()) {
+          this.productService.fetchNext();
+        }
+      },
+      { root: this.scrollContainer()?.nativeElement ?? null, rootMargin: '0px 0px 400px 0px' }
+    );
+    this.observer.observe(this.sentinel()?.nativeElement!);
+  }
 
-      const threshold = 400;
-      const position = window.innerHeight + window.scrollY;
-      const bottom = document.body.offsetHeight - threshold;
-
-      if (position >= bottom) {
-        this.productService.fetchNext();
-      }
-    });
+  ngOnDestroy() {
+    this.observer?.disconnect();
   }
 }
