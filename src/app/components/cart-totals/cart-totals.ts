@@ -1,10 +1,11 @@
 import { Component, computed, inject, output } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { MatIcon } from '@angular/material/icon';
 import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-cart-totals',
-  imports: [MatIcon],
+  imports: [MatIcon, RouterLink],
   templateUrl: './cart-totals.html',
   styles: `
     :host {
