@@ -1,5 +1,5 @@
 <div class="flex gap-3 pt-2">
-  <app-categies-list />
+  <app-categies-list (categoriesChanged)="onCategoriesChanged($event)" />
   <div class="w-full">
     <app-products-list />
   </div>

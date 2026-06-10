@@ -17,18 +17,33 @@ export class Products {
   loadingNext = signal(false);
   totalProducts = signal(0);
   searchQuery = signal('');
+  selectedCategories = signal<string[]>([]);
   limit = signal(9);
   private skip = signal(0);
 
   private productURL = computed(() => {
     const q = this.searchQuery();
-    const base = q
-      ? `https://dummyjson.com/products/search?q=${q}`
-      : `https://dummyjson.com/products`;
-    return `${base}?limit=${this.limit()}&skip=${this.skip()}`;
+    const cats = this.selectedCategories();
+    let base: string;
+    if (cats.length === 1) {
+      const slug = cats[0].toLowerCase().replace(/\s+/g, '-');
+      base = q
+        ? `https://dummyjson.com/products/category/${slug}/search?q=${q}`
+        : `https://dummyjson.com/products/category/${slug}`;
+    } else if (q) {
+      base = `https://dummyjson.com/products/search?q=${q}`;
+    } else {
+      base = `https://dummyjson.com/products`;
+    }
+    const limit = cats.length > 1 ? 100 : this.limit();
+    return `${base}?limit=${limit}&skip=${this.skip()}`;
   });
 
-  hasMore = computed(() => this.skip() + this.limit() < this.totalProducts());
+  hasMore = computed(() => {
+    const cats = this.selectedCategories();
+    if (cats.length > 1) return false;
+    return this.skip() + this.limit() < this.totalProducts();
+  });
 
   skeletonItems = computed(() => Array.from({ length: this.limit() }, () => ({})));
 
@@ -39,12 +54,19 @@ export class Products {
     try {
       const res = await fetch(this.productURL());
       const data: ProductsResponse = await res.json();
-      this.totalProducts.set(data.total);
+
+      const cats = this.selectedCategories();
+      const filtered =
+        cats.length > 1
+          ? data.products.filter((p) => cats.includes(p.category))
+          : data.products;
+
+      this.totalProducts.set(cats.length > 1 ? filtered.length : data.total);
 
       if (append) {
-        this.products.update((list) => [...list, ...data.products]);
+        this.products.update((list) => [...list, ...filtered]);
       } else {
-        this.products.set(data.products);
+        this.products.set(filtered);
       }
     } catch {
       this.totalProducts.set(0);
@@ -62,6 +84,12 @@ export class Products {
 
   async search(query: string): Promise<void> {
     this.searchQuery.set(query);
+    this.skip.set(0);
+    await this.fetchProducts(false);
+  }
+
+  async filterByCategories(categories: string[]): Promise<void> {
+    this.selectedCategories.set(categories);
     this.skip.set(0);
     await this.fetchProducts(false);
   }

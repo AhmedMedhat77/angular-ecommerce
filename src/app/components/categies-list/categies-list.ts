@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ICategory } from '../../../interfaces/categories/categories.interface';
 import { Categories } from '../../services/categories';
@@ -14,6 +14,8 @@ export class CategiesList implements OnInit {
 
   categories = signal<ICategory[]>([]);
   selectedCategories = signal<string[]>([]);
+
+  categoriesChanged = output<string[]>();
 
   ngOnInit() {
     this.getCategories();
@@ -36,5 +38,6 @@ export class CategiesList implements OnInit {
     } else {
       this.selectedCategories.set([...this.selectedCategories(), name]);
     }
+    this.categoriesChanged.emit(this.selectedCategories());
   }
 }

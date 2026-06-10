@@ -26,6 +26,10 @@ export class ProductsList implements OnInit {
     this.cartService.addToCart(product);
   }
 
+  async filterByCategories(categories: string[]) {
+    await this.productService.filterByCategories(categories);
+  }
+
   ngOnInit(): void {
     this.productService.fetchProducts();
     this.setupScrollListener();
