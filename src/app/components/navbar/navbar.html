@@ -1,0 +1,30 @@
+<nav
+  class="sticky top-0 z-50 flex items-center justify-between bg-white/80 px-6 py-3 shadow-sm backdrop-blur-md"
+>
+  <a [routerLink]="'/'" class="flex items-center gap-2">
+    <mat-icon [style.color]="'#f59e0b'" [style.fontSize]="'28px'">shopping_bag</mat-icon>
+    <span class="text-xl font-bold text-gray-900">E-commerce</span>
+  </a>
+
+  <ul class="flex items-center gap-1">
+    @for (item of navItems; track item.path) {
+      <li>
+        <a
+          [routerLink]="item.path"
+          routerLinkActive="nav-active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          class="rounded-lg px-4 py-2 text-sm font-medium text-gray-600 transition-colors duration-200 hover:bg-gray-100 hover:text-gray-900"
+        >
+          {{ item.label }}
+        </a>
+      </li>
+    }
+  </ul>
+
+  <div class="flex items-center gap-3">
+    <app-search (searchValue)="onSearch($event)" />
+    <a routerLink="/cart">
+      <app-app-cart />
+    </a>
+  </div>
+</nav>

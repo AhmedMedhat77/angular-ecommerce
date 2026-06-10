@@ -1,0 +1,51 @@
+import { Component, inject, OnInit } from '@angular/core';
+import { IProduct } from '../../../interfaces/products/products';
+import { CartService } from '../../services/cart.service';
+import { Products } from '../../services/products';
+import { ProductCard } from '../product-card/product-card';
+import { SkeltonProductCard } from '../skelton-product-card/skelton-product-card';
+
+@Component({
+  selector: 'app-products-list',
+  imports: [ProductCard, SkeltonProductCard],
+  templateUrl: './products-list.html',
+  styleUrl: './products-list.css',
+})
+export class ProductsList implements OnInit {
+  private productService = inject(Products);
+  private cartService = inject(CartService);
+
+  products = this.productService.products;
+  loading = this.productService.loading;
+  loadingNext = this.productService.loadingNext;
+  totalProducts = this.productService.totalProducts;
+  hasMore = this.productService.hasMore;
+  skeletonItems = this.productService.skeletonItems;
+
+  addProductToCart(product: IProduct) {
+    this.cartService.addToCart(product);
+  }
+
+  async filterByCategories(categories: string[]) {
+    await this.productService.filterByCategories(categories);
+  }
+
+  ngOnInit(): void {
+    this.productService.fetchProducts();
+    this.setupScrollListener();
+  }
+
+  private setupScrollListener(): void {
+    window.addEventListener('scroll', () => {
+      if (this.loading() || this.loadingNext() || !this.hasMore()) return;
+
+      const threshold = 400;
+      const position = window.innerHeight + window.scrollY;
+      const bottom = document.body.offsetHeight - threshold;
+
+      if (position >= bottom) {
+        this.productService.fetchNext();
+      }
+    });
+  }
+}

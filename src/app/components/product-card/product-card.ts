@@ -1,6 +1,7 @@
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, effect, inject, input } from '@angular/core';
 import { MatCard, MatCardContent } from '@angular/material/card';
-import { IProduct } from '../../app';
+import { IProduct } from '../../../interfaces/products/products';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-product-card',
@@ -11,7 +12,13 @@ import { IProduct } from '../../app';
       display: block;
     }
 
+    mat-card.selected {
+      border: 1px solid #e91e63;
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+    }
     mat-card {
+      border: 1px solid #e5e7eb;
       overflow: hidden;
       border-radius: 16px;
       transition:
@@ -54,6 +61,9 @@ import { IProduct } from '../../app';
 })
 export class ProductCard {
   readonly product = input.required<IProduct>();
+  private readonly cartService = inject(CartService);
+
+  isInCart = computed(() => this.cartService.isSelected(this.product().id));
 
   discountedPrice = computed(
     () => this.product().price / (1 - this.product().discountPercentage / 100),
