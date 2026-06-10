@@ -39,5 +39,18 @@
     @if (product().stock <= 10) {
       <span class="text-xs text-orange-500 font-medium mt-1">Only {{ product().stock }} left</span>
     }
+
+    <button
+      class="add-to-cart-btn"
+      [class.in-cart]="isInCart()"
+      (click)="onAddToCart($event)"
+      [disabled]="product().stock === 0"
+    >
+      @if (isInCart()) {
+        <mat-icon class="text-lg">check</mat-icon>
+      } @else {
+        <mat-icon class="text-lg">add_shopping_cart</mat-icon>
+      }
+    </button>
   </mat-card-content>
 </mat-card>
