@@ -15,6 +15,7 @@ import { CategiesList } from '../categies-list/categies-list';
 export class ProductsList implements OnInit, OnDestroy {
   private productService = inject(Products);
   private observer: IntersectionObserver | null = null;
+  private isFetching = false;
 
   products = this.productService.products;
   loading = this.productService.loading;
@@ -26,14 +27,11 @@ export class ProductsList implements OnInit, OnDestroy {
   sentinel = viewChild<ElementRef>('sentinel');
   scrollContainer = viewChild<ElementRef<HTMLElement>>('scrollContainer');
 
-  private isSentinelIntersecting = false;
-
   constructor() {
-    // Scroll container to top when filters or search queries change
     effect(() => {
       this.productService.searchQuery();
       this.productService.selectedCategories();
-      
+
       untracked(() => {
         const container = this.scrollContainer()?.nativeElement;
         if (container && window.innerWidth >= 1024) {
@@ -42,19 +40,6 @@ export class ProductsList implements OnInit, OnDestroy {
           window.scrollTo({ top: 0 });
         }
       });
-    });
-
-    // Handle lazy loading when loading finishes but sentinel is still intersecting
-    effect(() => {
-      const loading = this.loading();
-      const loadingNext = this.loadingNext();
-      const hasMore = this.hasMore();
-
-      if (!loading && !loadingNext && hasMore && this.isSentinelIntersecting) {
-        untracked(() => {
-          this.productService.fetchNext();
-        });
-      }
     });
   }
 
@@ -71,22 +56,37 @@ export class ProductsList implements OnInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    const isMobile = typeof window !== 'undefined' && window.innerWidth < 1024;
     this.observer = new IntersectionObserver(
       (entries) => {
-        const entry = entries[0];
-        this.isSentinelIntersecting = entry.isIntersecting;
-
-        if (entry.isIntersecting && !this.loading() && !this.loadingNext() && this.hasMore()) {
-          this.productService.fetchNext();
+        if (entries[0].isIntersecting) {
+          this.loadMore();
         }
       },
       {
-        root: isMobile ? null : (this.scrollContainer()?.nativeElement ?? null),
+        root: null,
         rootMargin: '0px 0px 400px 0px',
       }
     );
     this.observer.observe(this.sentinel()?.nativeElement!);
+  }
+
+  private async loadMore() {
+    if (this.isFetching || !this.hasMore() || this.loading() || this.loadingNext()) return;
+    this.isFetching = true;
+
+    try {
+      await this.productService.fetchNext();
+    } finally {
+      this.isFetching = false;
+    }
+
+    if (this.hasMore()) {
+      const sentinelEl = this.sentinel()?.nativeElement;
+      if (sentinelEl && this.observer) {
+        this.observer.unobserve(sentinelEl);
+        this.observer.observe(sentinelEl);
+      }
+    }
   }
 
   ngOnDestroy() {

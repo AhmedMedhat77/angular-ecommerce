@@ -17,7 +17,6 @@ import { ProductsList } from '../../components/products-list/products-list';
       display: flex;
       flex: 1;
       height: 100%;
-      overflow: hidden;
     }
 
     .dashboard-sidebar {
@@ -25,7 +24,6 @@ import { ProductsList } from '../../components/products-list/products-list';
       min-width: 260px;
       border-right: 1px solid #e5e7eb;
       background: #fff;
-      overflow-y: auto;
       padding: 1rem;
     }
 
@@ -40,7 +38,6 @@ import { ProductsList } from '../../components/products-list/products-list';
 
     .dashboard-main {
       flex: 1;
-      overflow: hidden;
       background: #f8fafc;
     }
 

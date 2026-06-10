@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { Navbar } from '../../components/navbar/navbar';
 import { Footer } from '../../components/footer/footer';
+import { Navbar } from '../../components/navbar/navbar';
 
 @Component({
   selector: 'app-app-layout',
@@ -27,17 +27,14 @@ import { Footer } from '../../components/footer/footer';
 
     @media (min-width: 1024px) {
       :host {
-        height: 100vh;
-        overflow: hidden;
+        min-height: 100vh;
       }
 
       main {
         height: 100%;
-        overflow: hidden;
       }
 
       .content-container {
-        overflow-y: auto;
       }
     }
   `,

@@ -46,11 +46,13 @@ export class Products {
     return `https://dummyjson.com/products?limit=${this.limit()}&skip=${this.skip()}`;
   });
 
+  private _lastFetchCount = signal(0);
   hasMore = computed(() => {
     if (this.searchQuery()) return false;
     const cats = this.selectedCategories();
     if (cats.length > 1) return false;
-    return this.skip() + this.limit() < this.totalProducts();
+    if (this._lastFetchCount() < this.limit()) return false;
+    return this.products().length < this.totalProducts();
   });
 
   skeletonItems = computed(() => Array.from({ length: this.limit() }, () => ({})));
@@ -70,6 +72,8 @@ export class Products {
           : data.products;
 
       this.totalProducts.set(cats.length > 1 ? filtered.length : data.total);
+
+      this._lastFetchCount.set(filtered.length);
 
       if (append) {
         this.products.update((list) => [...list, ...filtered]);
@@ -94,12 +98,14 @@ export class Products {
     this.searchQuery.set(query);
     this.selectedCategories.set([]);
     this.skip.set(0);
+    this._lastFetchCount.set(0);
     await this.fetchProducts(false);
   }
 
   async filterByCategories(categories: string[]): Promise<void> {
     this.selectedCategories.set(categories);
     this.skip.set(0);
+    this._lastFetchCount.set(0);
     await this.fetchProducts(false);
   }
 
