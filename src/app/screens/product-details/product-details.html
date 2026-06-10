@@ -128,8 +128,8 @@
 
           <div class="flex items-center gap-3">
             <div class="flex items-center gap-0.5">
-              @for (filled of ratingStars(); track $index) {
-                @if (filled) {
+              @for (star of ratingStars(); track star.index) {
+                @if (star.filled) {
                   <span class="text-amber-400 text-lg">&#9733;</span>
                 } @else {
                   <span class="text-gray-200 text-lg">&#9733;</span>

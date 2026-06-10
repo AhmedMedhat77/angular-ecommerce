@@ -39,7 +39,10 @@ export class ProductDetails implements OnInit {
   ratingStars = computed(() => {
     const p = this.product();
     if (!p) return [];
-    return Array.from({ length: 5 }, (_, i) => i + 1 <= Math.round(p.rating));
+    return Array.from({ length: 5 }, (_, i) => ({
+      index: i,
+      filled: i + 1 <= Math.round(p.rating),
+    }));
   });
 
   isInCart = computed(() => {
