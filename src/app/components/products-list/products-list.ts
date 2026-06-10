@@ -1,19 +1,17 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { IProduct } from '../../../interfaces/products/products';
-import { CartService } from '../../services/cart.service';
+import { RouterLink } from '@angular/router';
 import { Products } from '../../services/products';
 import { ProductCard } from '../product-card/product-card';
 import { SkeltonProductCard } from '../skelton-product-card/skelton-product-card';
 
 @Component({
   selector: 'app-products-list',
-  imports: [ProductCard, SkeltonProductCard],
+  imports: [ProductCard, SkeltonProductCard, RouterLink],
   templateUrl: './products-list.html',
   styleUrl: './products-list.css',
 })
 export class ProductsList implements OnInit {
   private productService = inject(Products);
-  private cartService = inject(CartService);
 
   products = this.productService.products;
   loading = this.productService.loading;
@@ -21,10 +19,6 @@ export class ProductsList implements OnInit {
   totalProducts = this.productService.totalProducts;
   hasMore = this.productService.hasMore;
   skeletonItems = this.productService.skeletonItems;
-
-  addProductToCart(product: IProduct) {
-    this.cartService.addToCart(product);
-  }
 
   async filterByCategories(categories: string[]) {
     await this.productService.filterByCategories(categories);

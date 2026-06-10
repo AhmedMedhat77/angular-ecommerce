@@ -6,7 +6,9 @@
 
   <div class="grid grid-cols-3 gap-4 p-2">
     @for (product of products(); track product.id ?? $index) {
-      <app-product-card [product]="product" (click)="addProductToCart(product)" />
+      <a routerLink="/product-details/{{ product.id }}">
+        <app-product-card [product]="product" />
+      </a>
     }
 
     @if (loading() || loadingNext()) {
