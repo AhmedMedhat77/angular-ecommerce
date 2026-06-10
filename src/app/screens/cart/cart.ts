@@ -13,8 +13,20 @@ import { CartTotals } from '../../components/cart-totals/cart-totals';
 export class Cart {
   private cartService = inject(CartService);
 
-  products = this.cartService.cartItems;
+  cartItems = this.cartService.cartItems;
   totalItems = this.cartService.totalItems;
+
+  getQuantity(id: number) {
+    return this.cartService.getQuantity(id);
+  }
+
+  increment(id: number) {
+    this.cartService.incrementQuantity(id);
+  }
+
+  decrement(id: number) {
+    this.cartService.decrementQuantity(id);
+  }
 
   removeItem(id: number) {
     this.cartService.removeFromCart(id);
