@@ -1,20 +1,27 @@
-<div class="px-2 pt-2 pb-6">
-  <h1 class="text-2xl font-bold text-gray-900">Products</h1>
-  <p class="text-sm text-gray-400 mt-1">{{ products().length }} of {{ totalProducts() }} items</p>
-</div>
+<div class="flex gap-3 pt-2">
+  <app-categies-list />
+  <div>
+    <div class="pb-6">
+      <h1 class="text-2xl font-bold text-gray-900">Products</h1>
+      <p class="text-sm text-gray-400 mt-1">
+        {{ products().length }} of {{ totalProducts() }} items
+      </p>
+    </div>
 
-<div class="grid grid-cols-3 gap-4 p-2">
-  @for (product of products(); track product.id ?? $index) {
-    <app-product-card [product]="product" />
-  }
+    <div class="grid grid-cols-3 gap-4 p-2">
+      @for (product of products(); track product.id ?? $index) {
+        <app-product-card [product]="product" />
+      }
 
-  @if (loading() || loadingNext()) {
-    @for (_ of skeletonItems(); track $index) {
-      <app-skelton-product-card />
+      @if (loading() || loadingNext()) {
+        @for (_ of skeletonItems(); track $index) {
+          <app-skelton-product-card />
+        }
+      }
+    </div>
+
+    @if (!hasMore()) {
+      <p class="text-center text-sm text-gray-400 py-8">No more products</p>
     }
-  }
+  </div>
 </div>
-
-@if (!hasMore()) {
-  <p class="text-center text-sm text-gray-400 py-8">No more products</p>
-}

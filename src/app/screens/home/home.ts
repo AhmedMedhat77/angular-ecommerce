@@ -1,11 +1,12 @@
 import { Component, OnInit, inject } from '@angular/core';
+import { CategiesList } from '../../components/categies-list/categies-list';
 import { ProductCard } from '../../components/product-card/product-card';
 import { SkeltonProductCard } from '../../components/skelton-product-card/skelton-product-card';
 import { Products } from '../../services/products';
 
 @Component({
   selector: 'app-home',
-  imports: [ProductCard, SkeltonProductCard],
+  imports: [ProductCard, SkeltonProductCard, CategiesList],
   templateUrl: './home.html',
   styles: ``,
 })

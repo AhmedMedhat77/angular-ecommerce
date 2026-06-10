@@ -1,5 +1,5 @@
 import { computed, Injectable, signal } from '@angular/core';
-import { IProduct } from '../products';
+import { IProduct } from '../../interfaces/products/products';
 
 interface ProductsResponse {
   products: IProduct[];
@@ -23,7 +23,7 @@ export class Products {
   private productURL = computed(() => {
     const q = this.searchQuery();
     const base = q
-      ? `https://dummyjson.com/products/search?q=${encodeURIComponent(q)}`
+      ? `https://dummyjson.com/products/search?q=${q}`
       : `https://dummyjson.com/products`;
     return `${base}?limit=${this.limit()}&skip=${this.skip()}`;
   });

@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { AppCart } from '../app-cart/app-cart';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { Search } from '../search/search';
+import { Products } from '../../services/products';
 
 interface NavItem {
   path: string;
@@ -25,13 +26,13 @@ interface NavItem {
   `,
 })
 export class Navbar {
+  private products = inject(Products);
   navItems: NavItem[] = [
     { path: '/', label: 'Home' },
     { path: '/about', label: 'About' },
   ];
 
-  onSearch(query: Event) {
-    const value = (query.target as HTMLInputElement).value;
-    console.log('search query', value);
+  onSearch(value: string) {
+    this.products.search(value);
   }
 }
