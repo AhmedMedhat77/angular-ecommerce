@@ -24,22 +24,30 @@ export class Products {
   private productURL = computed(() => {
     const q = this.searchQuery();
     const cats = this.selectedCategories();
-    let base: string;
+
+    if (q && cats.length === 1) {
+      const slug = cats[0].toLowerCase().replace(/\s+/g, '-');
+      return `https://dummyjson.com/products/category/${slug}/search?q=${q}`;
+    }
+
     if (cats.length === 1) {
       const slug = cats[0].toLowerCase().replace(/\s+/g, '-');
-      base = q
-        ? `https://dummyjson.com/products/category/${slug}/search?q=${q}`
-        : `https://dummyjson.com/products/category/${slug}`;
-    } else if (q) {
-      base = `https://dummyjson.com/products/search?q=${q}`;
-    } else {
-      base = `https://dummyjson.com/products`;
+      return `https://dummyjson.com/products/category/${slug}?limit=${this.limit()}&skip=${this.skip()}`;
     }
-    const limit = cats.length > 1 ? 100 : this.limit();
-    return `${base}?limit=${limit}&skip=${this.skip()}`;
+
+    if (cats.length > 1) {
+      return `https://dummyjson.com/products?limit=100&skip=0`;
+    }
+
+    if (q) {
+      return `https://dummyjson.com/products/search?q=${q}`;
+    }
+
+    return `https://dummyjson.com/products?limit=${this.limit()}&skip=${this.skip()}`;
   });
 
   hasMore = computed(() => {
+    if (this.searchQuery()) return false;
     const cats = this.selectedCategories();
     if (cats.length > 1) return false;
     return this.skip() + this.limit() < this.totalProducts();
@@ -84,6 +92,7 @@ export class Products {
 
   async search(query: string): Promise<void> {
     this.searchQuery.set(query);
+    this.selectedCategories.set([]);
     this.skip.set(0);
     await this.fetchProducts(false);
   }
