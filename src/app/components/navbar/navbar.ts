@@ -1,5 +1,4 @@
 import { Component, inject } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { Products } from '../../services/products';
 import { AppCart } from '../app-cart/app-cart';
@@ -12,7 +11,7 @@ interface NavItem {
 
 @Component({
   selector: 'app-navbar',
-  imports: [AppCart, MatIconModule, RouterLink, RouterLinkActive, Search],
+  imports: [AppCart, RouterLink, RouterLinkActive, Search],
   templateUrl: './navbar.html',
   styles: `
     :host {
@@ -20,8 +19,8 @@ interface NavItem {
     }
 
     :host ::ng-deep .nav-active {
-      color: #f59e0b;
-      background-color: #fffbeb;
+      color: #ffffff;
+      background-color: rgba(255, 255, 255, 0.2);
     }
   `,
 })
