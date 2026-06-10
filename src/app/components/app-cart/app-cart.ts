@@ -1,10 +1,10 @@
 import { Component, effect, inject, signal } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
+import { MatIcon } from '@angular/material/icon';
 import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-app-cart',
-  imports: [MatIconModule],
+  imports: [MatIcon],
   templateUrl: './app-cart.html',
   styles: `
     :host {

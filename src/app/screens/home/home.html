@@ -1,6 +1,9 @@
-<div class="flex gap-3 pt-2">
-  <app-categies-list (categoriesChanged)="onCategoriesChanged($event)" />
-  <div class="w-full">
+<div class="dashboard-layout">
+  <aside class="dashboard-sidebar hidden lg:block">
+    <app-categies-list (categoriesChanged)="onCategoriesChanged($event)" />
+  </aside>
+
+  <main class="dashboard-main">
     <app-products-list />
-  </div>
+  </main>
 </div>

@@ -1,10 +1,11 @@
 import { Component, computed, inject, output } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
+import { RouterLink } from '@angular/router';
+import { MatIcon } from '@angular/material/icon';
 import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-cart-totals',
-  imports: [MatIconModule],
+  imports: [MatIcon, RouterLink],
   templateUrl: './cart-totals.html',
   styles: `
     :host {
@@ -18,9 +19,7 @@ export class CartTotals {
   readonly totalItems = this.cartService.totalItems;
   readonly totalPrice = this.cartService.totalPrice;
   readonly totalSavings = this.cartService.totalSavings;
-  readonly originalTotal = computed(() =>
-    (this.totalPrice() + this.totalSavings()).toFixed(2),
-  );
+  readonly originalTotal = computed(() => (this.totalPrice() + this.totalSavings()).toFixed(2));
 
   clearCart = output<void>();
 }

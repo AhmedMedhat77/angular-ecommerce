@@ -1,12 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { MatIconModule } from '@angular/material/icon';
+import { MatIcon } from '@angular/material/icon';
 import { CartService } from '../../services/cart.service';
 import { CartTotals } from '../../components/cart-totals/cart-totals';
 
 @Component({
   selector: 'app-cart',
-  imports: [CartTotals, RouterLink, MatIconModule],
+  imports: [CartTotals, RouterLink, MatIcon],
   templateUrl: './cart.html',
   styleUrl: './cart.css',
 })

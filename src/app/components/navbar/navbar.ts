@@ -1,6 +1,6 @@
-import { Component, inject } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
+import { Component, inject, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
 import { Products } from '../../services/products';
 import { AppCart } from '../app-cart/app-cart';
 import { Search } from '../search/search';
@@ -20,18 +20,28 @@ interface NavItem {
     }
 
     :host ::ng-deep .nav-active {
-      color: #f59e0b;
-      background-color: #fffbeb;
+      color: #ffffff;
+      background-color: rgba(255, 255, 255, 0.2);
     }
   `,
 })
 export class Navbar {
   private products = inject(Products);
 
+  menuOpen = signal(false);
+
   navItems: NavItem[] = [
     { path: '/', label: 'Home' },
     { path: '/about', label: 'About' },
   ];
+
+  toggleMenu() {
+    this.menuOpen.update((v) => !v);
+  }
+
+  closeMenu() {
+    this.menuOpen.set(false);
+  }
 
   onSearch(value: string) {
     this.products.search(value);

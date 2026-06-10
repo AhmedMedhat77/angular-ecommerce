@@ -105,6 +105,7 @@ export class Products {
 
   async getProductById(id: string): Promise<IProduct> {
     const res = await fetch(`https://dummyjson.com/products/${id}`);
+    if (!res.ok) throw new Error(`Product not found: ${id}`);
     return res.json();
   }
 }

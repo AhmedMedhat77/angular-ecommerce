@@ -1,11 +1,11 @@
 import { Component, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatIconModule } from '@angular/material/icon';
+import { MatIcon } from '@angular/material/icon';
 import { debounceTime, distinctUntilChanged, skip, Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-search',
-  imports: [MatIconModule, FormsModule],
+  imports: [MatIcon, FormsModule],
   templateUrl: './search.html',
   styles: `
     :host {
