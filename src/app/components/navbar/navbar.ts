@@ -1,5 +1,6 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
 import { Products } from '../../services/products';
 import { AppCart } from '../app-cart/app-cart';
 import { Search } from '../search/search';
@@ -11,7 +12,7 @@ interface NavItem {
 
 @Component({
   selector: 'app-navbar',
-  imports: [AppCart, RouterLink, RouterLinkActive, Search],
+  imports: [AppCart, MatIconModule, RouterLink, RouterLinkActive, Search],
   templateUrl: './navbar.html',
   styles: `
     :host {
@@ -27,10 +28,20 @@ interface NavItem {
 export class Navbar {
   private products = inject(Products);
 
+  menuOpen = signal(false);
+
   navItems: NavItem[] = [
     { path: '/', label: 'Home' },
     { path: '/about', label: 'About' },
   ];
+
+  toggleMenu() {
+    this.menuOpen.update((v) => !v);
+  }
+
+  closeMenu() {
+    this.menuOpen.set(false);
+  }
 
   onSearch(value: string) {
     this.products.search(value);
