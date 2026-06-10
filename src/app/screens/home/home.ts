@@ -7,9 +7,16 @@ import { ProductsList } from '../../components/products-list/products-list';
   imports: [CategiesList, ProductsList],
   templateUrl: './home.html',
   styles: `
+    :host {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
     .dashboard-layout {
       display: flex;
-      height: calc(100svh - 56px);
+      flex: 1;
+      height: 100%;
       overflow: hidden;
     }
 
@@ -38,15 +45,20 @@ import { ProductsList } from '../../components/products-list/products-list';
     }
 
     @media (max-width: 1023px) {
+      :host {
+        display: block;
+        height: auto;
+      }
+
       .dashboard-layout {
         flex-direction: column;
         height: auto;
-        overflow: auto;
+        overflow: visible;
         background: #f8fafc;
       }
 
       .dashboard-main {
-        overflow: auto;
+        overflow: visible;
       }
     }
   `,
