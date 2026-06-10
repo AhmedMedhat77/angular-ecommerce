@@ -1,4 +1,4 @@
-import { computed, Injectable, signal } from '@angular/core';
+import { computed, effect, Injectable, signal } from '@angular/core';
 import { IProduct } from '../../interfaces/products/products';
 
 export interface CartItem {
@@ -6,9 +6,11 @@ export interface CartItem {
   quantity: number;
 }
 
+const STORAGE_KEY = 'ecommerce-cart';
+
 @Injectable({ providedIn: 'root' })
 export class CartService {
-  private items = signal<CartItem[]>([]);
+  private items = signal<CartItem[]>(this.loadFromStorage());
 
   readonly cartItems = computed(() => this.items());
   readonly totalItems = computed(() =>
@@ -76,5 +78,19 @@ export class CartService {
 
   clearCart() {
     this.items.set([]);
+  }
+
+  private persist = effect(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(this.items()));
+    } catch {}
+  });
+
+  private loadFromStorage(): CartItem[] {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) return JSON.parse(raw);
+    } catch {}
+    return [];
   }
 }
