@@ -1,9 +1,15 @@
 <div class="categories-container">
   <div class="categories-header">
-    <h2 class="categories-title">Categories</h2>
+    <div class="categories-header-left">
+      <h2 class="categories-title">Categories</h2>
+      @if (selectedCategories().length > 0) {
+        <span class="categories-badge">{{ selectedCategories().length }}</span>
+      }
+    </div>
     @if (selectedCategories().length > 0) {
       <button class="clear-btn" (click)="clearAll()">
-        Clear
+        <mat-icon>clear</mat-icon>
+        <span>Clear</span>
       </button>
     }
   </div>
@@ -11,7 +17,10 @@
   <div class="categories-list">
     @if (loading()) {
       @for (_ of skeletonItems; track $index) {
-        <div class="category-chip skeleton-chip"></div>
+        <div class="category-chip skeleton-chip">
+          <span class="skeleton-icon"></span>
+          <span class="skeleton-text"></span>
+        </div>
       }
     } @else {
       @for (category of categories(); track category.name) {
@@ -20,7 +29,7 @@
           [class.selected]="isSelected(category.name)"
           (click)="toggleCategory(category.name)"
         >
-          <span class="chip-dot"></span>
+          <mat-icon class="category-icon">{{ getCategoryIcon(category.name) }}</mat-icon>
           <span class="chip-label">{{ category.name }}</span>
         </button>
       }
