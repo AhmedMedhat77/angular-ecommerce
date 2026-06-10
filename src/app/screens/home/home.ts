@@ -19,7 +19,7 @@ import { ProductsList } from '../../components/products-list/products-list';
       border-right: 1px solid #e5e7eb;
       background: #fff;
       overflow-y: auto;
-      padding: 1.25rem;
+      padding: 1rem;
     }
 
     .dashboard-sidebar::-webkit-scrollbar {
