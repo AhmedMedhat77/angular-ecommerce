@@ -1,12 +1,14 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
 import { Products } from '../../services/products';
 import { ProductCard } from '../product-card/product-card';
 import { SkeltonProductCard } from '../skelton-product-card/skelton-product-card';
+import { CategiesList } from '../categies-list/categies-list';
 
 @Component({
   selector: 'app-products-list',
-  imports: [ProductCard, SkeltonProductCard, RouterLink],
+  imports: [ProductCard, SkeltonProductCard, RouterLink, MatIconModule, CategiesList],
   templateUrl: './products-list.html',
   styleUrl: './products-list.css',
 })
@@ -19,6 +21,11 @@ export class ProductsList implements OnInit {
   totalProducts = this.productService.totalProducts;
   hasMore = this.productService.hasMore;
   skeletonItems = this.productService.skeletonItems;
+  showCategories = signal(false);
+
+  toggleCategories() {
+    this.showCategories.update((v) => !v);
+  }
 
   async filterByCategories(categories: string[]) {
     await this.productService.filterByCategories(categories);
