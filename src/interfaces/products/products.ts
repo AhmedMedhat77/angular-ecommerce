@@ -12,6 +12,7 @@ export interface IProduct {
   sku: string;
   weight: number;
   thumbnail: string;
+  images: string[];
   dimensions: {
     width: number;
     height: number;
