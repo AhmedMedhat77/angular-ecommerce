@@ -6,4 +6,7 @@ import { Component } from '@angular/core';
   templateUrl: './about.html',
   styles: ``,
 })
-export class About {}
+export class About {
+  version = '1.0.0';
+  angularVersion = '21.1.0';
+}
