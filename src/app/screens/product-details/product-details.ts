@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { MatIcon } from '@angular/material/icon';
 import { IProduct } from '../../../interfaces/products/products';
 import { CartService } from '../../services/cart.service';
@@ -8,7 +8,7 @@ import { Products } from '../../services/products';
 
 @Component({
   selector: 'app-product-details',
-  imports: [MatIcon],
+  imports: [MatIcon, RouterLink],
   templateUrl: './product-details.html',
   styleUrl: './product-details.css',
 })
@@ -20,6 +20,8 @@ export class ProductDetails implements OnInit {
   private readonly productId = this.route.snapshot.paramMap.get('id');
 
   product = signal<IProduct | null>(null);
+  loading = signal(true);
+  notFound = signal(false);
   selectedImage = signal<string>('');
 
   discountedPrice = computed(() => {
@@ -47,10 +49,21 @@ export class ProductDetails implements OnInit {
   });
 
   async getProductById() {
-    if (this.productId) {
+    if (!this.productId) {
+      this.notFound.set(true);
+      this.loading.set(false);
+      return;
+    }
+    this.loading.set(true);
+    this.notFound.set(false);
+    try {
       const product = await this.productsService.getProductById(this.productId);
       this.product.set(product);
       this.selectedImage.set(product.thumbnail);
+    } catch {
+      this.notFound.set(true);
+    } finally {
+      this.loading.set(false);
     }
   }
 

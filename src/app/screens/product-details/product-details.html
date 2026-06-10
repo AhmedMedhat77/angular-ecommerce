@@ -15,7 +15,78 @@
       </div>
     </div>
 
-    @if (product()) {
+    @if (loading()) {
+      <div class="flex gap-8 items-start animate-pulse">
+        <div class="flex flex-col gap-3 w-[520px] shrink-0">
+          <div class="bg-white rounded-2xl border border-gray-200 aspect-square"></div>
+          <div class="flex gap-2">
+            @for (_ of [1, 2, 3, 4]; track $index) {
+              <div class="w-16 h-16 shrink-0 rounded-xl bg-gray-200"></div>
+            }
+          </div>
+        </div>
+        <div class="flex-1 min-w-0 flex flex-col gap-6">
+          <div class="flex flex-col gap-2">
+            <div class="h-3 w-24 rounded bg-gray-200"></div>
+            <div class="h-8 w-3/4 rounded bg-gray-200"></div>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="h-4 w-28 rounded bg-gray-200"></div>
+            <div class="h-4 w-20 rounded bg-gray-200"></div>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="h-9 w-32 rounded bg-gray-200"></div>
+            <div class="h-6 w-20 rounded bg-gray-200"></div>
+          </div>
+          <div class="flex flex-col gap-2">
+            @for (_ of [1, 2, 3]; track $index) {
+              <div class="h-4 rounded bg-gray-200" [class.w-full]="$index !== 2" [class.w-2/3]="$index === 2"></div>
+            }
+          </div>
+          <div class="h-4 w-32 rounded bg-gray-200"></div>
+          <div class="h-12 w-48 rounded-xl bg-gray-200"></div>
+          <div class="bg-gray-50 rounded-2xl p-5 flex flex-col gap-4">
+            <div class="h-3 w-28 rounded bg-gray-200"></div>
+            <div class="grid grid-cols-2 gap-3">
+              @for (_ of [1, 2, 3, 4]; track $index) {
+                <div class="flex flex-col gap-2">
+                  <div class="h-3 w-16 rounded bg-gray-200"></div>
+                  <div class="h-4 w-24 rounded bg-gray-200"></div>
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    } @else if (notFound()) {
+      <div class="flex items-center justify-center py-20">
+        <div class="flex flex-col items-center gap-6 max-w-md w-full bg-white rounded-2xl border border-gray-200 p-10">
+          <div class="w-24 h-24 rounded-full bg-purple-50 flex items-center justify-center">
+            <mat-icon class="text-purple-300" style="font-size: 48px">production_quantity_limits</mat-icon>
+          </div>
+          <div class="text-center flex flex-col gap-2">
+            <h2 class="text-xl font-bold text-gray-800">Product not found</h2>
+            <p class="text-sm text-gray-400 leading-relaxed">
+              Sorry, we couldn't find the product you're looking for. It may have been removed or the link might be broken.
+            </p>
+          </div>
+          <div class="flex items-center gap-3">
+            <button
+              (click)="goBack()"
+              class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-2.5 px-5 rounded-xl transition-colors duration-200 cursor-pointer"
+            >
+              Go back
+            </button>
+            <a
+              [routerLink]="'/'"
+              class="bg-purple-700 hover:bg-purple-800 text-white font-semibold py-2.5 px-5 rounded-xl transition-colors duration-200"
+            >
+              Browse products
+            </a>
+          </div>
+        </div>
+      </div>
+    } @else if (product()) {
       <div class="flex gap-8 items-start">
         <div class="flex flex-col gap-3 w-[520px] shrink-0">
           <div
@@ -32,7 +103,7 @@
               @for (img of product()!.images; track $index) {
                 <button
                   (click)="selectedImage.set(img)"
-                  class="w-16 h-16 flex-shrink-0 rounded-xl border-2 overflow-hidden cursor-pointer transition-all duration-150"
+                  class="w-16 h-16 shrink-0 rounded-xl border-2 overflow-hidden cursor-pointer transition-all duration-150"
                   [class.border-purple-600]="selectedImage() === img"
                   [class.border-gray-200]="selectedImage() !== img"
                 >
@@ -71,9 +142,7 @@
           </div>
 
           <div class="flex items-baseline gap-3">
-            <span class="text-3xl font-bold text-purple-700"
-              >${{ product()!.price.toFixed(2) }}</span
-            >
+            <span class="text-3xl font-bold text-purple-700">${{ product()!.price.toFixed(2) }}</span>
             @if (product()!.discountPercentage > 5) {
               <span class="text-lg text-gray-400 line-through">
                 ${{ discountedPrice().toFixed(2) }}
@@ -170,11 +239,6 @@
             }
           </div>
         </div>
-      </div>
-    } @else {
-      <div class="flex flex-col items-center justify-center py-24 gap-4">
-        <mat-icon class="text-gray-200 animate-spin" [style.fontSize]="'48px'">refresh</mat-icon>
-        <p class="text-gray-400">Loading product...</p>
       </div>
     }
   </div>
