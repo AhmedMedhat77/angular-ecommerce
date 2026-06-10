@@ -1,6 +1,6 @@
 import { Component, computed, input } from '@angular/core';
 import { MatCard, MatCardContent } from '@angular/material/card';
-import { IProduct } from '../../app';
+import { IProduct } from '../../products';
 
 @Component({
   selector: 'app-product-card',

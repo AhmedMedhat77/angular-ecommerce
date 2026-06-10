@@ -1,28 +1,8 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
-import { ProductCard } from './components/product-card/product-card';
 import { HttpClient } from '@angular/common/http';
-import { SkeltonProductCard } from './components/skelton-product-card/skelton-product-card';
-
-export interface IProduct {
-  id: number;
-  title: string;
-  description: string;
-  category: string;
-  price: number;
-  discountPercentage: number;
-  rating: number;
-  stock: number;
-  tags: string[];
-  brand: string;
-  sku: string;
-  weight: number;
-  thumbnail: string;
-  dimensions: {
-    width: number;
-    height: number;
-    depth: number;
-  };
-}
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { ProductCard } from '../../components/product-card/product-card';
+import { SkeltonProductCard } from '../../components/skelton-product-card/skelton-product-card';
+import { IProduct } from '../../products';
 
 interface ProductsResponse {
   products: IProduct[];
@@ -32,38 +12,12 @@ interface ProductsResponse {
 }
 
 @Component({
-  selector: 'app-root',
+  selector: 'app-home',
   imports: [ProductCard, SkeltonProductCard],
-  template: `
-    <main class="p-4">
-      <div class="px-2 pt-2 pb-6">
-        <h1 class="text-2xl font-bold text-gray-900">Products</h1>
-        <p class="text-sm text-gray-400 mt-1">
-          {{ products().length }} of {{ totalProducts() }} items
-        </p>
-      </div>
-
-      <div class="grid grid-cols-3 gap-4 p-2">
-        @for (product of products(); track product.id) {
-          <app-product-card [product]="product" />
-        }
-
-        @if (loading() || loadingNext()) {
-          @for (_ of skeletonItems(); track $index) {
-            <app-skelton-product-card />
-          }
-        }
-      </div>
-
-      @if (!hasMore()) {
-        <p class="text-center text-sm text-gray-400 py-8">No more products</p>
-      }
-    </main>
-  `,
-  styles: [],
-  providers: [],
+  templateUrl: './home.html',
+  styles: ``,
 })
-export class App implements OnInit {
+export class Home implements OnInit {
   private http = inject(HttpClient);
   private limit = signal(9);
   private skip = signal(0);

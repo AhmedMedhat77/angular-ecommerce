@@ -1,0 +1,13 @@
+<nav class="flex items-center justify-between p-2 bg-white shadow-md">
+  <h1 class="text-2xl font-bold">E-commerce</h1>
+  <ul class="flex items-center gap-2">
+    <li>
+      <a [routerLink]="'/'"> Home </a>
+    </li>
+    <li><a [routerLink]="'/about'">About</a></li>
+  </ul>
+  <div class="flex items-center gap-2">
+    <app-search />
+    <app-app-cart />
+  </div>
+</nav>

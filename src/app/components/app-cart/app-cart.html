@@ -1,0 +1,16 @@
+<button
+  class="group relative flex h-10 w-10 cursor-pointer items-center justify-center rounded-xl transition-all duration-300 hover:bg-gray-100 active:scale-95"
+>
+  <mat-icon [style.fontSize]="'22px'" [style.transition]="'color 0.2s'" [style.color]="'#e11d48'">
+    shopping_bag
+  </mat-icon>
+
+  @if (counter()) {
+    <span
+      class="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-red-500 px-1 text-[11px] font-bold leading-none text-white shadow-sm transition-transform duration-200 group-hover:scale-110"
+    >
+      {{ counter() > 99 ? `99+` : counter() }}
+    </span>
+  }
+</button>
+Ø

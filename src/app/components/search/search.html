@@ -1,0 +1,27 @@
+<div
+  class="group relative flex items-center rounded-xl border border-gray-200 bg-gray-50 transition-all duration-300 ease-in-out focus-within:border-blue-400 focus-within:bg-white focus-within:shadow-lg focus-within:shadow-blue-100/50"
+>
+  <mat-icon
+    class="pointer-events-none absolute left-3 text-gray-400 transition-colors duration-200 group-focus-within:text-blue-500"
+    [class]="'text-[20px]'"
+  >
+    search
+  </mat-icon>
+
+  <input
+    type="text"
+    [ngModel]="internalValue()"
+    (ngModelChange)="onInput($event)"
+    placeholder="Search products..."
+    class="w-44 bg-transparent py-2 pl-10 pr-9 text-sm text-gray-700 placeholder-gray-400 outline-none transition-all duration-300 focus:w-64"
+  />
+
+  @if (internalValue()) {
+    <button
+      (click)="clear()"
+      class="absolute right-2 flex h-6 w-6 cursor-pointer items-center justify-center rounded-full text-gray-400 transition-colors duration-200 hover:bg-gray-200 hover:text-gray-600"
+    >
+      <mat-icon [class]="'text-[16px]'">close</mat-icon>
+    </button>
+  }
+</div>
