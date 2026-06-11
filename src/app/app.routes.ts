@@ -3,6 +3,7 @@ import { About } from './screens/about/about';
 import { Cart } from './screens/cart/cart';
 import { Checkout } from './screens/checkout/checkout';
 import { Home } from './screens/home/home';
+import { Login } from './screens/login/login';
 import { ProductDetails } from './screens/product-details/product-details';
 
 export const routes: Routes = [
@@ -25,6 +26,10 @@ export const routes: Routes = [
   {
     path: 'product-details/:id',
     component: ProductDetails,
+  },
+  {
+    path: '/login',
+    component: Login,
   },
   {
     path: '**',
