@@ -2,7 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { MatIcon } from '@angular/material/icon';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { CartService } from '../../services/cart.service';
+import { CartService } from '../../services/context/cart.service';
 
 interface CheckoutForm {
   firstName: string;
