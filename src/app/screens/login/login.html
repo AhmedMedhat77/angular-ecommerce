@@ -1,1 +1,70 @@
-<p>login works!</p>
+<div class="login-page">
+  <div class="login-card">
+    <div class="card-accent"></div>
+
+    <div class="brand">
+      <mat-icon class="brand-icon">store</mat-icon>
+      <span class="brand-name">ShopFlow</span>
+    </div>
+
+    <div class="header">
+      <h2>Welcome back</h2>
+      <p>Sign in to your account to continue shopping</p>
+    </div>
+
+    <form class="form" [formGroup]="passwordForm" (ngSubmit)="onSubmit()">
+      <app-input
+        label="Username"
+        placeholder="Enter your username"
+        type="text"
+        autocomplete="username"
+        formControlName="username"
+        [error]="usernameError()"
+        [required]="true"
+      />
+      <app-input
+        label="Password"
+        placeholder="Enter your password"
+        type="password"
+        autocomplete="current-password"
+        formControlName="password"
+        [error]="passwordError()"
+        [required]="true"
+      />
+
+      <div class="options-row">
+        <label class="checkbox-label">
+          <input type="checkbox" class="checkbox" checked />
+          <span>Remember me</span>
+        </label>
+        <a routerLink="/forgot-password" class="forgot-link">Forgot password?</a>
+      </div>
+
+      @if (errorMessage()) {
+        <div class="error-banner">
+          <mat-icon class="error-banner-icon">error_outline</mat-icon>
+          {{ errorMessage() }}
+        </div>
+      }
+
+      <button
+        type="submit"
+        class="btn-primary"
+        [disabled]="loading() || (passwordForm.invalid && passwordForm.touched)"
+      >
+        @if (loading()) {
+          <span class="spinner"></span>
+          Signing in…
+        } @else {
+          <mat-icon class="btn-icon">login</mat-icon>
+          Sign in
+        }
+      </button>
+    </form>
+
+    <div class="footer">
+      Don't have an account?
+      <a routerLink="/register" class="signup-link">Sign up</a>
+    </div>
+  </div>
+</div>

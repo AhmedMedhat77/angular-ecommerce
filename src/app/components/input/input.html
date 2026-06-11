@@ -1,0 +1,47 @@
+<div class="flex flex-col gap-1.5">
+  @if (label()) {
+    <label
+      class="text-sm font-medium"
+      [class.text-gray-700]="!hasError()"
+      [class.text-red-600]="hasError()"
+    >
+      {{ label() }}
+      @if (required()) {
+        <span class="text-red-500">*</span>
+      }
+    </label>
+  }
+
+  <input
+    [type]="type()"
+    [value]="value()"
+    [placeholder]="placeholder()"
+    [disabled]="isDisabled() || disabled()"
+    [readonly]="readonly()"
+    [required]="required()"
+    [attr.autocomplete]="autocomplete() || null"
+    [attr.maxlength]="maxlength() || null"
+    [attr.minlength]="minlength() || null"
+    [attr.min]="min() != null ? min() : null"
+    [attr.max]="max() != null ? max() : null"
+    [attr.step]="step() != null ? step() : null"
+    [attr.pattern]="pattern() || null"
+    [attr.name]="name() || null"
+    [attr.autofocus]="autofocus() || null"
+    (input)="onInput($event)"
+    (focus)="onFocus($event)"
+    (blur)="onBlur($event)"
+    class="input"
+    [class.input--error]="hasError()"
+    [class.input--sm]="size() === 'sm'"
+    [class.input--lg]="size() === 'lg'"
+  />
+
+  @if (hint() && !hasError()) {
+    <p class="text-xs text-gray-400">{{ hint() }}</p>
+  }
+
+  @if (hasError()) {
+    <p class="text-xs text-red-500">{{ error() }}</p>
+  }
+</div>
