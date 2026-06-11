@@ -3,6 +3,8 @@ import { Router, RouterLink } from '@angular/router';
 import { MatIcon } from '@angular/material/icon';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CartService } from '../../services/context/cart.service';
+import { AuthService } from '../../services/context/auth.service';
+import { Login } from '../../services/login.service';
 
 interface CheckoutForm {
   firstName: string;
@@ -26,6 +28,8 @@ interface CheckoutForm {
 export class Checkout {
   private readonly router = inject(Router);
   private readonly cartService = inject(CartService);
+  private readonly authService = inject(AuthService);
+  private readonly loginService = inject(Login);
 
   readonly cartItems = this.cartService.cartItems;
   readonly totalItems = this.cartService.totalItems;
@@ -33,21 +37,55 @@ export class Checkout {
   readonly totalSavings = this.cartService.totalSavings;
   readonly originalTotal = signal('');
 
-  form: CheckoutForm = {
-    firstName: '',
-    lastName: '',
-    email: '',
-    address: '',
-    city: '',
-    zip: '',
-    country: '',
-    cardNumber: '',
-    expiry: '',
-    cvv: '',
-  };
-
+  form: CheckoutForm;
   processing = signal(false);
   orderPlaced = signal(false);
+  loadingProfile = signal(false);
+
+  private formatExpiryDate(raw: string): string {
+    const clean = raw.replace(/\D/g, '').slice(0, 4);
+    if (clean.length >= 2) return clean.slice(0, 2) + '/' + clean.slice(2);
+    return clean;
+  }
+
+  constructor() {
+    const user = this.authService.currentUser;
+    this.form = {
+      firstName: user?.firstName ?? '',
+      lastName: user?.lastName ?? '',
+      email: user?.email ?? '',
+      address: '',
+      city: '',
+      zip: '',
+      country: '',
+      cardNumber: '',
+      expiry: '',
+      cvv: '',
+    };
+    this.originalTotal.set((this.totalPrice() + this.totalSavings()).toFixed(2));
+    this.loadProfile();
+  }
+
+  private async loadProfile(): Promise<void> {
+    const token = this.authService.currentUser?.accessToken;
+    if (!token) return;
+    this.loadingProfile.set(true);
+    try {
+      const profile = await this.loginService.me(token);
+      this.form.firstName = profile.firstName;
+      this.form.lastName = profile.lastName;
+      this.form.email = profile.email;
+      this.form.address = profile.address.address;
+      this.form.city = profile.address.city;
+      this.form.zip = profile.address.postalCode;
+      this.form.country = profile.address.country;
+      this.form.cardNumber = profile.bank.cardNumber;
+      this.form.expiry = this.formatExpiryDate(profile.bank.cardExpire);
+    } catch {
+    } finally {
+      this.loadingProfile.set(false);
+    }
+  }
 
   get formValid(): boolean {
     return (
@@ -95,9 +133,5 @@ export class Checkout {
 
   goHome() {
     this.router.navigate(['/']);
-  }
-
-  constructor() {
-    this.originalTotal.set((this.totalPrice() + this.totalSavings()).toFixed(2));
   }
 }
