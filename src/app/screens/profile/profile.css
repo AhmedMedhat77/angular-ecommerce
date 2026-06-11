@@ -199,6 +199,21 @@
   color: #db2777;
 }
 
+.stat-icon--phone {
+  background: #ecfdf5;
+  color: #059669;
+}
+
+.stat-icon--blood {
+  background: #fef2f2;
+  color: #dc2626;
+}
+
+.stat-icon--birth {
+  background: #fffbeb;
+  color: #d97706;
+}
+
 .stat-label {
   font-size: 0.6875rem;
   font-weight: 600;
@@ -268,6 +283,15 @@
   font-weight: 500;
 }
 
+.info-item--full {
+  grid-column: 1 / -1;
+}
+
+.card-number {
+  font-family: 'Courier New', Courier, monospace;
+  letter-spacing: 0.05em;
+}
+
 /* ── Actions ── */
 
 .actions {
@@ -325,6 +349,70 @@
 
 .btn--secondary:hover {
   background: #e5e7eb;
+}
+
+/* ── Skeleton ── */
+
+.skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  animation: fadeInUp 0.5s ease-out;
+}
+
+.skeleton-hero {
+  height: 200px;
+  border-radius: 1.5rem;
+  background: linear-gradient(90deg, #e5e7eb 25%, #f3f4f6 50%, #e5e7eb 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+.skeleton-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+}
+
+@media (max-width: 639px) {
+  .skeleton-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.skeleton-card {
+  height: 80px;
+  border-radius: 1rem;
+  background: linear-gradient(90deg, #e5e7eb 25%, #f3f4f6 50%, #e5e7eb 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+.skeleton-card:nth-child(2) {
+  animation-delay: 0.1s;
+}
+.skeleton-card:nth-child(3) {
+  animation-delay: 0.2s;
+}
+.skeleton-card:nth-child(4) {
+  animation-delay: 0.3s;
+}
+
+.skeleton-block {
+  height: 180px;
+  border-radius: 1rem;
+  background: linear-gradient(90deg, #e5e7eb 25%, #f3f4f6 50%, #e5e7eb 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
 }
 
 /* ── Animations ── */

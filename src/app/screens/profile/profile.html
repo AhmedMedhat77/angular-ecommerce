@@ -6,7 +6,18 @@
     </a>
   </div>
 
-  @if (user(); as u) {
+  @if (loading()) {
+    <div class="skeleton">
+      <div class="skeleton-hero"></div>
+      <div class="skeleton-grid">
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+      </div>
+      <div class="skeleton-block"></div>
+    </div>
+  } @else if (profile(); as u) {
     <div class="profile-hero">
       <div class="hero-bg">
         <div class="hero-circle hero-circle--1"></div>
@@ -20,7 +31,7 @@
         </div>
         <h1 class="hero-name">{{ u.firstName }} {{ u.lastName }}</h1>
         <p class="hero-username">&#64;{{ u.username }}</p>
-        <div class="hero-badge">{{ u.gender }}</div>
+        <div class="hero-badge">{{ u.gender }} &middot; {{ u.age }} yrs</div>
       </div>
     </div>
 
@@ -33,30 +44,30 @@
         <span class="stat-value">{{ u.email }}</span>
       </div>
       <div class="stat-card">
-        <div class="stat-icon stat-icon--user">
-          <mat-icon>person</mat-icon>
+        <div class="stat-icon stat-icon--phone">
+          <mat-icon>phone</mat-icon>
         </div>
-        <span class="stat-label">Full Name</span>
-        <span class="stat-value">{{ u.firstName }} {{ u.lastName }}</span>
+        <span class="stat-label">Phone</span>
+        <span class="stat-value">{{ u.phone }}</span>
       </div>
       <div class="stat-card">
-        <div class="stat-icon stat-icon--id">
-          <mat-icon>badge</mat-icon>
+        <div class="stat-icon stat-icon--blood">
+          <mat-icon>water_drop</mat-icon>
         </div>
-        <span class="stat-label">User ID</span>
-        <span class="stat-value">{{ u.id }}</span>
+        <span class="stat-label">Blood Group</span>
+        <span class="stat-value">{{ u.bloodGroup }}</span>
       </div>
       <div class="stat-card">
-        <div class="stat-icon stat-icon--gender">
-          <mat-icon>face</mat-icon>
+        <div class="stat-icon stat-icon--birth">
+          <mat-icon>cake</mat-icon>
         </div>
-        <span class="stat-label">Gender</span>
-        <span class="stat-value">{{ u.gender }}</span>
+        <span class="stat-label">Birth Date</span>
+        <span class="stat-value">{{ u.birthDate }}</span>
       </div>
     </div>
 
     <div class="info-card">
-      <h3 class="info-card-title">Account Information</h3>
+      <h3 class="info-card-title">Personal Details</h3>
       <div class="info-divider"></div>
       <div class="info-grid">
         <div class="info-item">
@@ -76,12 +87,116 @@
           <span class="info-item-value">{{ u.email }}</span>
         </div>
         <div class="info-item">
+          <span class="info-item-label">Phone</span>
+          <span class="info-item-value">{{ u.phone }}</span>
+        </div>
+        <div class="info-item">
           <span class="info-item-label">Gender</span>
           <span class="info-item-value">{{ u.gender }}</span>
         </div>
         <div class="info-item">
-          <span class="info-item-label">User ID</span>
-          <span class="info-item-value">{{ u.id }}</span>
+          <span class="info-item-label">Age</span>
+          <span class="info-item-value">{{ u.age }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-item-label">Blood Group</span>
+          <span class="info-item-value">{{ u.bloodGroup }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-item-label">Height</span>
+          <span class="info-item-value">{{ u.height }} cm</span>
+        </div>
+        <div class="info-item">
+          <span class="info-item-label">Weight</span>
+          <span class="info-item-value">{{ u.weight }} kg</span>
+        </div>
+        <div class="info-item">
+          <span class="info-item-label">Eye Color</span>
+          <span class="info-item-value">{{ u.eyeColor }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-item-label">Hair</span>
+          <span class="info-item-value">{{ u.hair.color }} &middot; {{ u.hair.type }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <h3 class="info-card-title">Address</h3>
+      <div class="info-divider"></div>
+      <div class="info-grid">
+        <div class="info-item info-item--full">
+          <span class="info-item-label">Street</span>
+          <span class="info-item-value">{{ u.address.address }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-item-label">City</span>
+          <span class="info-item-value">{{ u.address.city }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-item-label">State</span>
+          <span class="info-item-value">{{ u.address.state }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-item-label">Country</span>
+          <span class="info-item-value">{{ u.address.country }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-item-label">Postal Code</span>
+          <span class="info-item-value">{{ u.address.postalCode }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <h3 class="info-card-title">Company</h3>
+      <div class="info-divider"></div>
+      <div class="info-grid">
+        <div class="info-item info-item--full">
+          <span class="info-item-label">Company</span>
+          <span class="info-item-value">{{ u.company.name }}</span>
+        </div>
+        <div class="info-item info-item--full">
+          <span class="info-item-label">Department</span>
+          <span class="info-item-value">{{ u.company.department }}</span>
+        </div>
+        <div class="info-item info-item--full">
+          <span class="info-item-label">Title</span>
+          <span class="info-item-value">{{ u.company.title }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <h3 class="info-card-title">Bank</h3>
+      <div class="info-divider"></div>
+      <div class="info-grid">
+        <div class="info-item">
+          <span class="info-item-label">Card Type</span>
+          <span class="info-item-value">{{ u.bank.cardType }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-item-label">Card Number</span>
+          <span class="info-item-value card-number">{{ u.bank.cardNumber }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-item-label">Currency</span>
+          <span class="info-item-value">{{ u.bank.currency }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-item-label">Expires</span>
+          <span class="info-item-value">{{ u.bank.cardExpire }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <h3 class="info-card-title">Education</h3>
+      <div class="info-divider"></div>
+      <div class="info-grid">
+        <div class="info-item info-item--full">
+          <span class="info-item-label">University</span>
+          <span class="info-item-value">{{ u.university }}</span>
         </div>
       </div>
     </div>
