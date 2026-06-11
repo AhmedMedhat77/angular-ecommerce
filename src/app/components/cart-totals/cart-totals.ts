@@ -1,7 +1,7 @@
 import { Component, computed, inject, output } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { MatIcon } from '@angular/material/icon';
-import { CartService } from '../../services/cart.service';
+import { RouterLink } from '@angular/router';
+import { CartService } from '../../services/context/cart.service';
 
 @Component({
   selector: 'app-cart-totals',

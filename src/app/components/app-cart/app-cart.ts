@@ -1,6 +1,6 @@
 import { Component, effect, inject, signal } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
-import { CartService } from '../../services/cart.service';
+import { CartService } from '../../services/context/cart.service';
 
 @Component({
   selector: 'app-app-cart',

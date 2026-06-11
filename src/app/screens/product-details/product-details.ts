@@ -1,9 +1,9 @@
 import { Location } from '@angular/common';
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
 import { MatIcon } from '@angular/material/icon';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { IProduct } from '../../../interfaces/products/products';
-import { CartService } from '../../services/cart.service';
+import { CartService } from '../../services/context/cart.service';
 import { Products } from '../../services/products';
 
 @Component({

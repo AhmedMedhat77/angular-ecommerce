@@ -2,7 +2,7 @@ import { Component, computed, inject, input } from '@angular/core';
 import { MatCard, MatCardContent } from '@angular/material/card';
 import { MatIcon } from '@angular/material/icon';
 import { IProduct } from '../../../interfaces/products/products';
-import { CartService } from '../../services/cart.service';
+import { CartService } from '../../services/context/cart.service';
 
 @Component({
   selector: 'app-product-card',

@@ -1,9 +1,11 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, Inject, inject, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { Products } from '../../services/products';
 import { AppCart } from '../app-cart/app-cart';
 import { Search } from '../search/search';
+import { AuthService } from '../../services/context/auth.service';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 interface NavItem {
   path: string;
@@ -27,6 +29,9 @@ interface NavItem {
 })
 export class Navbar {
   private products = inject(Products);
+  private userService = inject(AuthService);
+
+  user = toSignal(this.userService.currentUser$);
 
   menuOpen = signal(false);
 
@@ -34,6 +39,10 @@ export class Navbar {
     { path: '/', label: 'Home' },
     { path: '/about', label: 'About' },
   ];
+
+  logout() {
+    this.userService.logout();
+  }
 
   toggleMenu() {
     this.menuOpen.update((v) => !v);
