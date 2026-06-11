@@ -21,6 +21,11 @@ export class Login {
 
   readonly loading = signal(false);
   readonly errorMessage = signal('');
+  readonly showPassword = signal(false);
+
+  togglePassword(): void {
+    this.showPassword.update((v) => !v);
+  }
 
   passwordForm = this.formBuilder.group({
     username: ['emilys', Validators.required],

@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './guards/auth.guard';
-import { profileGuard } from './guards/profile.guard';
+import { loginGuard } from './guards/login.guard';
 import { About } from './screens/about/about';
 import { Cart } from './screens/cart/cart';
 import { Checkout } from './screens/checkout/checkout';
@@ -25,6 +25,8 @@ export const routes: Routes = [
   {
     path: 'checkout',
     component: Checkout,
+    canActivate: [authGuard],
+    title: 'Checkout',
   },
   {
     path: 'product-details/:id',
@@ -33,12 +35,12 @@ export const routes: Routes = [
   {
     path: 'login',
     component: Login,
-    canActivate: [authGuard],
+    canActivate: [loginGuard],
   },
   {
     path: 'profile',
     component: Profile,
-    canActivate: [profileGuard],
+    canActivate: [authGuard],
   },
   {
     path: '**',
