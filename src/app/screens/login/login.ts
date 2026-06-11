@@ -3,6 +3,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { Input } from '../../components/input/input';
+import { AuthService } from '../../services/auth.service';
 import { Login as LoginService } from '../../services/login.service';
 
 @Component({
@@ -14,6 +15,7 @@ import { Login as LoginService } from '../../services/login.service';
 export class Login {
   private readonly formBuilder = inject(FormBuilder);
   private readonly loginService = inject(LoginService);
+  private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
 
   readonly loading = signal(false);
@@ -48,7 +50,8 @@ export class Login {
 
     try {
       const { username, password } = this.passwordForm.value;
-      await this.loginService.login(username!, password!);
+      const user = await this.loginService.login(username!, password!);
+      this.authService.login(user);
       this.router.navigateByUrl('/');
     } catch {
       this.errorMessage.set('Invalid username or password');
