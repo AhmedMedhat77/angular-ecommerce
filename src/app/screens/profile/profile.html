@@ -1,64 +1,100 @@
-<div class="profile-page">
-  <div class="profile-card">
-    <div class="card-accent"></div>
-
-    <a routerLink="/" class="back-btn">
+<section class="profile-page">
+  <div class="back-row">
+    <a routerLink="/" class="back-link">
       <mat-icon>arrow_back</mat-icon>
+      Back to shop
     </a>
+  </div>
 
-    @if (user(); as u) {
-      <div class="avatar-section">
-        <img [src]="u.image" [alt]="u.firstName" class="avatar" />
-        <h2>{{ u.firstName }} {{ u.lastName }}</h2>
-        <p class="username">&#64;{{ u.username }}</p>
+  @if (user(); as u) {
+    <div class="profile-hero">
+      <div class="hero-bg">
+        <div class="hero-circle hero-circle--1"></div>
+        <div class="hero-circle hero-circle--2"></div>
+        <div class="hero-circle hero-circle--3"></div>
       </div>
-
-      <div class="details">
-        <div class="detail-item">
-          <div class="detail-icon detail-icon--email">
-            <mat-icon>email</mat-icon>
-          </div>
-          <div class="detail-info">
-            <span class="detail-label">Email</span>
-            <span class="detail-value">{{ u.email }}</span>
-          </div>
+      <div class="hero-content">
+        <div class="hero-avatar-wrapper">
+          <img [src]="u.image" [alt]="u.firstName" class="hero-avatar" />
+          <div class="hero-avatar-ring"></div>
         </div>
+        <h1 class="hero-name">{{ u.firstName }} {{ u.lastName }}</h1>
+        <p class="hero-username">&#64;{{ u.username }}</p>
+        <div class="hero-badge">{{ u.gender }}</div>
+      </div>
+    </div>
 
-        <div class="detail-item">
-          <div class="detail-icon detail-icon--user">
-            <mat-icon>person</mat-icon>
-          </div>
-          <div class="detail-info">
-            <span class="detail-label">Full Name</span>
-            <span class="detail-value">{{ u.firstName }} {{ u.lastName }}</span>
-          </div>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon stat-icon--email">
+          <mat-icon>email</mat-icon>
         </div>
-
-        <div class="detail-item">
-          <div class="detail-icon detail-icon--gender">
-            <mat-icon>face</mat-icon>
-          </div>
-          <div class="detail-info">
-            <span class="detail-label">Gender</span>
-            <span class="detail-value">{{ u.gender }}</span>
-          </div>
+        <span class="stat-label">Email</span>
+        <span class="stat-value">{{ u.email }}</span>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon stat-icon--user">
+          <mat-icon>person</mat-icon>
         </div>
+        <span class="stat-label">Full Name</span>
+        <span class="stat-value">{{ u.firstName }} {{ u.lastName }}</span>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon stat-icon--id">
+          <mat-icon>badge</mat-icon>
+        </div>
+        <span class="stat-label">User ID</span>
+        <span class="stat-value">{{ u.id }}</span>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon stat-icon--gender">
+          <mat-icon>face</mat-icon>
+        </div>
+        <span class="stat-label">Gender</span>
+        <span class="stat-value">{{ u.gender }}</span>
+      </div>
+    </div>
 
-        <div class="detail-item">
-          <div class="detail-icon detail-icon--id">
-            <mat-icon>badge</mat-icon>
-          </div>
-          <div class="detail-info">
-            <span class="detail-label">User ID</span>
-            <span class="detail-value">{{ u.id }}</span>
-          </div>
+    <div class="info-card">
+      <h3 class="info-card-title">Account Information</h3>
+      <div class="info-divider"></div>
+      <div class="info-grid">
+        <div class="info-item">
+          <span class="info-item-label">First Name</span>
+          <span class="info-item-value">{{ u.firstName }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-item-label">Last Name</span>
+          <span class="info-item-value">{{ u.lastName }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-item-label">Username</span>
+          <span class="info-item-value">{{ u.username }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-item-label">Email</span>
+          <span class="info-item-value">{{ u.email }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-item-label">Gender</span>
+          <span class="info-item-value">{{ u.gender }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-item-label">User ID</span>
+          <span class="info-item-value">{{ u.id }}</span>
         </div>
       </div>
+    </div>
 
-      <button class="btn-logout" (click)="logout()">
-        <mat-icon class="btn-icon">logout</mat-icon>
+    <div class="actions">
+      <button class="btn btn--logout" (click)="logout()">
+        <mat-icon>logout</mat-icon>
         Sign out
       </button>
-    }
-  </div>
-</div>
+      <a routerLink="/" class="btn btn--secondary">
+        <mat-icon>home</mat-icon>
+        Back to home
+      </a>
+    </div>
+  }
+</section>
