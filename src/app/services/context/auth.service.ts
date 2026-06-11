@@ -1,11 +1,14 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ILoginResponse } from '../../interfaces/login';
+import { Login } from '../login.service';
 
 const USER_KEY = 'user';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
+  private readonly loginService = inject(Login);
+
   private userSubject: BehaviorSubject<ILoginResponse | null>;
 
   currentUser$: Observable<ILoginResponse | null>;
@@ -29,5 +32,35 @@ export class AuthService {
   logout() {
     localStorage.removeItem(USER_KEY);
     this.userSubject.next(null);
+  }
+
+  private refreshPromise: Promise<ILoginResponse | null> | null = null;
+
+  async refreshToken(): Promise<ILoginResponse | null> {
+    const user = this.currentUser;
+    if (!user?.refreshToken) {
+      this.logout();
+      return null;
+    }
+
+    if (!this.refreshPromise) {
+      this.refreshPromise = this.loginService
+        .refresh(user.refreshToken)
+        .then((tokens) => {
+          const updated = { ...user, ...tokens };
+          localStorage.setItem(USER_KEY, JSON.stringify(updated));
+          this.userSubject.next(updated);
+          return updated;
+        })
+        .catch(() => {
+          this.logout();
+          return null;
+        })
+        .finally(() => {
+          this.refreshPromise = null;
+        });
+    }
+
+    return this.refreshPromise;
   }
 }
