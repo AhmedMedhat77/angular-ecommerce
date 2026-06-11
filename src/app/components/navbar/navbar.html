@@ -8,21 +8,21 @@
     <div class="hidden items-center gap-3 md:flex">
       <app-search (searchValue)="onSearch($event)" />
       @if (user(); as u) {
-        <div class="flex items-center gap-2 text-white">
+        <a routerLink="/profile" class="flex items-center gap-2 text-white no-underline">
           <img
             [src]="u.image"
             [alt]="u.firstName"
             class="h-8 w-8 rounded-full border-2 border-white/30 object-cover"
           />
           <span class="text-sm font-medium">{{ u.firstName }}</span>
-          <button
-            (click)="logout()"
-            class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg text-white/70 transition-colors hover:bg-white/15 hover:text-white"
-            title="Sign out"
-          >
-            <mat-icon class="text-base">logout</mat-icon>
-          </button>
-        </div>
+        </a>
+        <button
+          (click)="logout()"
+          class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg text-white/70 transition-colors hover:bg-white/15 hover:text-white"
+          title="Sign out"
+        >
+          <mat-icon class="text-base">logout</mat-icon>
+        </button>
       } @else {
         <a routerLink="/login" class="text-white">
           <mat-icon>account_circle</mat-icon>
@@ -35,20 +35,20 @@
 
     <div class="flex items-center gap-3 md:hidden">
       @if (user(); as u) {
-        <div class="flex items-center gap-1.5 text-white">
+        <a routerLink="/profile" class="text-white">
           <img
             [src]="u.image"
             [alt]="u.firstName"
             class="h-7 w-7 rounded-full border-2 border-white/30 object-cover"
           />
-          <button
-            (click)="logout()"
-            class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg text-white/70 transition-colors hover:bg-white/15 hover:text-white"
-            title="Sign out"
-          >
-            <mat-icon class="text-base">logout</mat-icon>
-          </button>
-        </div>
+        </a>
+        <button
+          (click)="logout()"
+          class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg text-white/70 transition-colors hover:bg-white/15 hover:text-white"
+          title="Sign out"
+        >
+          <mat-icon class="text-base">logout</mat-icon>
+        </button>
       } @else {
         <a routerLink="/login" class="text-white">
           <mat-icon>account_circle</mat-icon>
