@@ -1,6 +1,4 @@
-<nav
-  class="sticky top-0 z-50 bg-gradient-to-r from-indigo-600 to-indigo-700 shadow-md"
->
+<nav class="sticky top-0 z-50 bg-gradient-to-r from-indigo-600 to-indigo-700 shadow-md">
   <div class="flex items-center justify-between px-6 py-3">
     <a [routerLink]="'/'" class="flex items-center gap-2.5" (click)="closeMenu()">
       <img src="logo.svg" alt="Logo" class="h-8 w-8 rounded-lg" />
@@ -9,13 +7,19 @@
 
     <div class="hidden items-center gap-3 md:flex">
       <app-search (searchValue)="onSearch($event)" />
+      <a routerLink="/login" class="text-white">
+        <mat-icon>account_circle</mat-icon>
+      </a>
       <a routerLink="/cart">
         <app-app-cart />
       </a>
     </div>
 
     <div class="flex items-center gap-3 md:hidden">
-      <a routerLink="/cart">
+      <a routerLink="/login" class="text-white">
+        <mat-icon>account_circle</mat-icon>
+      </a>
+      <a routerLink="/cart" class="text-white">
         <app-app-cart />
       </a>
       <button
