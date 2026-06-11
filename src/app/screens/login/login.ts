@@ -23,8 +23,8 @@ export class Login {
   readonly errorMessage = signal('');
 
   passwordForm = this.formBuilder.group({
-    username: ['', Validators.required],
-    password: ['', Validators.required],
+    username: ['emilys', Validators.required],
+    password: ['emilyspass', Validators.required],
   });
 
   username = this.passwordForm.controls.username;
